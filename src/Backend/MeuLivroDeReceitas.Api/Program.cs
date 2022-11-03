@@ -1,4 +1,5 @@
 using MeuLivroDeReceitas.Domain.Extensions;
+using MeuLivroDeReceitas.Infrastructure;
 using MeuLivroDeReceitas.Infrastructure.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddRepositories(builder.Configuration);
 
 var app = builder.Build();
 
@@ -26,6 +29,9 @@ app.Run();
 void CreateDatabase()
 {
     var connection = builder.Configuration.GetDatabase();
+    var database = builder.Configuration.GetSection("Database:Name").Value;
 
-    Database.CreateDatabase(connection, "receitas_db");
+    Database.CreateDatabase(connection, database);
+
+    app.Migrate();
 }
