@@ -1,6 +1,7 @@
 using MeuLivroDeReceitas.Domain.Extensions;
 using MeuLivroDeReceitas.Infrastructure;
 using MeuLivroDeReceitas.Infrastructure.Migrations;
+using MeuLivroDeReceitas.Infrastructure.Migrations.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddRepositories(builder.Configuration);
 
 var app = builder.Build();
 
@@ -22,16 +23,16 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-CreateDatabase();
+CriarDatabase();
 
 app.Run();
 
-void CreateDatabase()
+void CriarDatabase()
 {
-    var connection = builder.Configuration.GetDatabase();
-    var database = builder.Configuration.GetSection("Database:Name").Value;
+    var connection = builder.Configuration.GetConnection();
+    var database = builder.Configuration.GetDatabase();
 
-    Database.CreateDatabase(connection, database);
+    Database.CriarDatabase(connection, database);
 
-    app.Migrate();
+    app.MigrarDatabase();
 }
