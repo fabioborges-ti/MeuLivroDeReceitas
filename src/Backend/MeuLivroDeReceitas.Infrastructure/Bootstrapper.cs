@@ -11,7 +11,7 @@ namespace MeuLivroDeReceitas.Infrastructure;
 
 public static class Bootstrapper
 {
-    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static void AddRepositories(this IServiceCollection services, IConfiguration configuration)
     {
         AddFluentMigrator(services, configuration);
         AddContext(services, configuration);

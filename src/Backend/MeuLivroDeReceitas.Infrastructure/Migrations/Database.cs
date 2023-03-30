@@ -5,7 +5,7 @@ namespace MeuLivroDeReceitas.Infrastructure.Migrations;
 
 public static class Database
 {
-    public static void CreateDatabase(string connectionString, string database)
+    public static void CriarDatabase(string connectionString, string database)
     {
         using var connection = new SqlConnection(connectionString);
 
